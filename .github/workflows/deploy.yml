@@ -1,0 +1,32 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Esto se ejecutará cuando se haga un push al branch 'main'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'  # Especifica la versión de Node.js que estés utilizando
+
+    - name: Install dependencies
+      run: npm install  # Instala las dependencias definidas en package.json
+
+    - name: Build project with 11ty
+      run: npx @11ty/eleventy --output=dist  # Ejecuta el comando de construcción de 11ty
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3  # Esta acción se encargará de hacer el despliegue
+      with:
+        personal_token: ${{ secrets.GITHUB_TOKEN }}  # GitHub proporciona automáticamente este token para usarlo en tus acciones
+        publish_dir: ./dist  # La carpeta donde 11ty genera los archivos estáticos
+        publish_branch: gh-pages  # La rama donde quieres hacer el despliegue
