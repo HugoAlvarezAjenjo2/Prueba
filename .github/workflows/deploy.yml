@@ -7,16 +7,19 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Esto sigue siendo válido, pero configuramos Node.js 20 explícitamente
     
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true  # Forzamos Node.js 20
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3  # Asegúrate de estar usando la última versión de la acción
+        uses: actions/checkout@v3  # Asegúrate de que sea la versión más reciente
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3  # Usa la última versión
+        uses: actions/setup-node@v3  # La versión más reciente de la acción
         with:
-          node-version: '20'  # Configura explícitamente Node.js 20
+          node-version: '20'  # Especificamos que se use Node.js 20
 
       - name: Install dependencies
         run: npm install
@@ -25,7 +28,7 @@ jobs:
         run: npx @11ty/eleventy
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3  # Usa la versión más reciente
+        uses: peaceiris/actions-gh-pages@v3  # Usando la versión más reciente de la acción
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
