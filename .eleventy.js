@@ -1,4 +1,5 @@
 module.exports = function (eleventyConfig) {
+  eleventyConfig.addGlobalData("basePath", process.env.NODE_ENV === 'production' ? "/NombreDelRepositorio" : "");
   // Copiar carpetas estáticas directamente al output
   eleventyConfig.addPassthroughCopy("src/img");
   eleventyConfig.addPassthroughCopy("src/styles");
