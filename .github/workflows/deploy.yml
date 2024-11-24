@@ -4,42 +4,31 @@ on:
   push:
     branches:
       - main
-  pull_request:
 
 jobs:
-  deploy:
-    runs-on: ubuntu-22.04
-    permissions:
-      contents: write
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
+  build:
+    runs-on: ubuntu-latest
+    
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true  # Forzamos Node.js 20
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3  # Asegúrate de que sea la versión más reciente
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3  # La versión más reciente de la acción
         with:
-          node-version: '18'
+          node-version: '20'  # Especificamos que se use Node.js 20
 
-      - name: Cache npm
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
+      - name: Install dependencies
+        run: npm install
 
-      - name: Cache Eleventy .cache
-        uses: actions/cache@v3
-        with:
-          path: ./.cache
-          key: ${{ runner.os }}-eleventy-fetch-cache
+      - name: Build with 11ty
+        run: npx @11ty/eleventy
 
-
-      - run: npm install
-      - run: npm run build-ghpages
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        if: github.ref == 'refs/heads/main'
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3  # Usando la versión más reciente de la acción
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_site
+          publish_dir: ./dist
