@@ -3,6 +3,7 @@
 
 # 11ty output folder
 /dist/
+/_site/
 
 # Local env files
 .env

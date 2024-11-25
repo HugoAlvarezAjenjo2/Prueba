@@ -11,7 +11,7 @@ module.exports = function (eleventyConfig) {
   return {
     dir: {
       input: "src",      // Carpeta de entrada
-      output: "dist",    // Carpeta de salida
+      output: "_site",    // Carpeta de salida
     },
     htmlTemplateEngine: "liquid", // Motor de plantillas (puedes cambiarlo si prefieres otro)
     markdownTemplateEngine: "liquid",
