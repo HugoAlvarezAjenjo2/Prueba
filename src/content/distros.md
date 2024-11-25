@@ -1,6 +1,6 @@
 ---
 layout: layouts/default.html
-title: Linux Explained
+title: Distribuciones
 css: /styles/grid.css
 ---
 
