@@ -2,7 +2,6 @@
 layout: layouts/default.html
 title: Linux Explained
 css: /styles/grid.css
-
 ---
 
 Una **distribución de linux** es una versión personalizada del sistema operativo linux que
